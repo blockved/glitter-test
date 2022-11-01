@@ -88,7 +88,7 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 	common.PrintInfo("ArticleCommentUrl_resp1: %v", string(respStr1))
 	err = json.Unmarshal(respStr1, &respArticleComment)
 	goCheck.Assert(err, IsNil)
-	commentID1 := respArticleComment.Data.(map[string]string)["id"]
+	commentID1 := respArticleComment.Data.(map[string]interface{})["id"].(string)
 	sql := fmt.Sprintf("select article_id, content, parent, from_user_id, to_user_id from comment where id = \"%s\"", commentID1)
 	rows, err := client.MysqlClientIndex3().Query(sql)
 	goCheck.Assert(err, IsNil)
