@@ -40,7 +40,7 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 		LoginTime: time.Now().Unix(),
 	}
 	respStr, err := common.DoPost(urlLoginOrRegister, common.ConvToJSON(req))
-	common.PrintInfo("urlLoginOrRegister_resp: %v", respStr)
+	common.PrintInfo("urlLoginOrRegister_resp: %v", string(respStr))
 	goCheck.Assert(err, IsNil)
 
 	var resp Response
@@ -60,7 +60,7 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 		},
 	}
 	respStr, err = common.DoPost(ArticleCommentUrl, common.ConvToJSON(reqArticleComment))
-	common.PrintInfo("ArticleCommentUrl_resp: %v", respStr)
+	common.PrintInfo("ArticleCommentUrl_resp: %v", string(respStr))
 
 	var respArticleComment Response
 	err = json.Unmarshal(respStr, &respArticleComment)
