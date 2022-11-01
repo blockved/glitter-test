@@ -149,6 +149,7 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 	goCheck.Assert(err, IsNil)
 	commentID3 := respArticleComment.Data.(map[string]interface{})["id"].(string)
 	sql3 := fmt.Sprintf("select article_id, content, parent, from_user_id, to_user_id from comment where id = \"%s\"", commentID3)
+	common.PrintInfo("sql=%v", sql3)
 	rows3, err3 := client.MysqlClientIndex3().Query(sql3)
 	goCheck.Assert(err3, IsNil)
 	for rows3.Next() {
