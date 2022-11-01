@@ -152,10 +152,15 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 	common.PrintInfo("sql=%v", sql3)
 	rows3, err3 := client.MysqlClientIndex3().Query(sql3)
 	goCheck.Assert(err3, IsNil)
+	var articleID1 string
+	var content1 string
+	var parent1 string
+	var fromUserID1 string
+	var toUserID1 string
 	for rows3.Next() {
-		rows.Scan(&articleID, &content, &parent, &fromUserID, &toUserID)
+		rows.Scan(&articleID1, &content1, &parent1, &fromUserID1, &toUserID1)
 	}
-	common.PrintInfo("comment_query_result: articleID=%v||content=%v||parent=%v||fromUserID=%v||toUserID=%v", articleID, content, parent, fromUserID, toUserID)
+	common.PrintInfo("comment_query_result: articleID=%v||content=%v||parent=%v||fromUserID=%v||toUserID=%v", articleID1, content1, parent1, fromUserID1, toUserID1)
 	goCheck.Assert(articleID, Equals, "UU5yS0VH_4DJpGqVzOtXCaEm2dYhtVpifO_TBqx5P-M")
 	goCheck.Assert(content, Equals, "test comment 789 after 123")
 	goCheck.Assert(parent, Equals, commentID)
