@@ -108,5 +108,59 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 	goCheck.Assert(fromUserID, Equals, addr)
 	goCheck.Assert(toUserID, Equals, addr)
 
+	//不同用户评论
+	privateHex2 := "ae78c8b502571dba876742437f8bc78b689cf8518356c0921393d89caaf284cd"
+	msg2 := "I am registing for index3"
+	addr2, sign2 := common.GetSignNew(privateHex2, msg2)
+	req1 := RequestLoginOrRegister{
+		CheckInfo: CheckInfo{
+			Address: addr2,
+			Msg:     msg2,
+			Sign:    sign2,
+		},
+		LoginTime: time.Now().Unix(),
+	}
+	respStr2, err2 := common.DoPost(urlLoginOrRegister, common.ConvToJSON(req1))
+	common.PrintInfo("urlLoginOrRegister_resp2: %v", string(respStr2))
+	goCheck.Assert(err2, IsNil)
+
+	var resp2 Response
+	err = json.Unmarshal(respStr2, &resp2)
+	goCheck.Assert(err, IsNil)
+	goCheck.Assert(resp2.Code, Equals, uint32(0))
+
+	//parientComment != "", 评论回复
+	reqArticleComment2 := ArticleCommentReq {
+		ArticleID:      "UU5yS0VH_4DJpGqVzOtXCaEm2dYhtVpifO_TBqx5P-M",
+		SourceType:     "mirror",
+		Content:        "test comment 789 after 123",
+		ParientComment: commentID,
+		CheckInfo:      CheckInfo{
+			Address: addr,
+			Msg:     msg,
+			Sign:    sign,
+		},
+	}
+
+	respStr3, err3 := common.DoPost(ArticleCommentUrl, common.ConvToJSON(reqArticleComment2))
+	goCheck.Assert(err3, IsNil)
+	common.PrintInfo("ArticleCommentUrl_resp3: %v", string(respStr3))
+	err = json.Unmarshal(respStr3, &respArticleComment)
+	goCheck.Assert(err, IsNil)
+	commentID3 := respArticleComment.Data.(map[string]interface{})["id"].(string)
+	sql3 := fmt.Sprintf("select article_id, content, parent, from_user_id, to_user_id from comment where id = \"%s\"", commentID3)
+	rows3, err3 := client.MysqlClientIndex3().Query(sql3)
+	goCheck.Assert(err3, IsNil)
+	for rows3.Next() {
+		rows.Scan(&articleID, &content, &parent, &fromUserID, &toUserID)
+	}
+	common.PrintInfo("comment_query_result: articleID=%v||content=%v||parent=%v||fromUserID=%v||toUserID=%v", articleID, content, parent, fromUserID, toUserID)
+	goCheck.Assert(articleID, Equals, "UU5yS0VH_4DJpGqVzOtXCaEm2dYhtVpifO_TBqx5P-M")
+	goCheck.Assert(content, Equals, "test comment 789 after 123")
+	goCheck.Assert(parent, Equals, commentID)
+	goCheck.Assert(fromUserID, Equals, addr2)
+	goCheck.Assert(toUserID, Equals, addr)
+
+
 
 }
