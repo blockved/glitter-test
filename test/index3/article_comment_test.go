@@ -69,8 +69,8 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 	err = json.Unmarshal(respStr, &respArticleComment)
 	goCheck.Assert(err, IsNil)
 	goCheck.Assert(respArticleComment.Code, Equals, uint32(0))
-	goCheck.Assert(respArticleComment.Data.(map[string]string)["id"], Not(Equals), "")
-	commentID := respArticleComment.Data.(map[string]string)["id"]
+	commentID := respArticleComment.Data.(map[string]interface{})["id"].(string)
+	goCheck.Assert(commentID, Not(Equals), "")
 	//parientComment != "", 评论回复
 	reqArticleComment1 := ArticleCommentReq {
 		ArticleID:      "UU5yS0VH_4DJpGqVzOtXCaEm2dYhtVpifO_TBqx5P-M",
