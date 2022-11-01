@@ -71,7 +71,7 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 	goCheck.Assert(respArticleComment.Code, Equals, uint32(0))
 	commentID := respArticleComment.Data.(map[string]interface{})["id"].(string)
 	goCheck.Assert(commentID, Not(Equals), "")
-	//parientComment != "", 评论回复
+	//parientComment != "", 评论回复, 自己回复自己
 	reqArticleComment1 := ArticleCommentReq {
 		ArticleID:      "UU5yS0VH_4DJpGqVzOtXCaEm2dYhtVpifO_TBqx5P-M",
 		SourceType:     "mirror",
@@ -108,7 +108,7 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 	goCheck.Assert(fromUserID, Equals, addr)
 	goCheck.Assert(toUserID, Equals, addr)
 
-	//不同用户评论
+	//不同用户评论， A用户回复B用户
 	privateHex2 := "ae78c8b502571dba876742437f8bc78b689cf8518356c0921393d89caaf284cd"
 	msg2 := "I am registing for index3"
 	addr2, sign2 := common.GetSignNew(privateHex2, msg2)
@@ -136,9 +136,9 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 		Content:        "test comment 789 after 123",
 		ParientComment: commentID,
 		CheckInfo:      CheckInfo{
-			Address: addr,
-			Msg:     msg,
-			Sign:    sign,
+			Address: addr2,
+			Msg:     msg2,
+			Sign:    sign2,
 		},
 	}
 
@@ -160,7 +160,4 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 	goCheck.Assert(parent, Equals, commentID)
 	goCheck.Assert(fromUserID, Equals, addr2)
 	goCheck.Assert(toUserID, Equals, addr)
-
-
-
 }
