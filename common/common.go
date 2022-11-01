@@ -16,3 +16,8 @@ func PrintJson(formating string, val interface{}) {
 	format := fmt.Sprintf("[%v]%v\n", time.Now(), formating)
 	fmt.Printf(format, string(tmp))
 }
+
+func PrintInfo(formating string, val interface{}) {
+	format := fmt.Sprintf("[%v]%v\n", time.Now(), formating)
+	fmt.Printf(format, val)
+}
