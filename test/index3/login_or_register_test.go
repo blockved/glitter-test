@@ -50,8 +50,8 @@ func (s *LoginOrRegister) TestLoginOrRegisterCase00(goCheck *C) {
 	privateHex := "ae78c8b502571dba876742437f8bc78b689cf8518356c0921393d89caaf284ce"
 	msg := "I am registing for index3 "
 	addr, sign := common.GetSignNew(privateHex, msg)
-	//sql := fmt.Sprintf("delete from mirror_user where address = \"%s\"", addr)
-	sql := fmt.Sprintf("delete from mirror_user where address = \"%s\"", "2")
+	sql := fmt.Sprintf("delete from mirror_user where address = \"%s\"", addr)
+	//sql := fmt.Sprintf("delete from mirror_user where address = \"%s\"", "2")
 	_, err := client.MysqlClientIndex3().Exec(sql)
 	goCheck.Assert(err, IsNil)
 	req := RequestLoginOrRegister{

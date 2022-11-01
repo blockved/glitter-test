@@ -13,7 +13,7 @@ type ArticleComment struct {
 var _ = Suite(&ArticleComment{})
 
 var (
-	ArticleCommentUrl string = "http://localhost:8765/v1/user/replay"
+	ArticleCommentUrl string = "http://localhost:8765/v1/article/comment"
 )
 
 type ArticleCommentReq struct {

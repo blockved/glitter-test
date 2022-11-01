@@ -20,7 +20,7 @@ type MysqlConfig struct {
 }
 
 var SerConf ServiceConfig
-var confPath string = "/home/work/otherpay-test/conf/service.conf"
+var confPath string = "/home/xu/glitter-test/conf/service.conf"
 
 func Load(confFile string) (err error) {
 	_, err = toml.DecodeFile(confFile, &SerConf)
