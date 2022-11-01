@@ -101,6 +101,7 @@ func (s *ArticleComment) TestArticleCommentCase00(goCheck *C) {
 	for rows.Next() {
 		rows.Scan(&articleID, &content, &parent, &fromUserID, &toUserID)
 	}
+	common.PrintInfo("comment_query_result: articleID=%v||content=%v||parent=%v||fromUserID=%v||toUserID=%v", articleID, content, parent, fromUserID, toUserID)
 	goCheck.Assert(articleID, Equals, "UU5yS0VH_4DJpGqVzOtXCaEm2dYhtVpifO_TBqx5P-M")
 	goCheck.Assert(content, Equals, "test comment 456 after 123")
 	goCheck.Assert(parent, Equals, commentID)
