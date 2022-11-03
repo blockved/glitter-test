@@ -27,7 +27,7 @@ type PageInfo struct {
 }
 
 func (s *Timeline) TestTimelineCase00(goCheck *C) {
-	//有addr
+	//有addr，有收藏is_star=true
 	privateHex := "ae78c8b502571dba876742437f8bc78b689cf8518356c0921393d89caaf284ce"
 	msg := "I am registing for index3"
 	addr, sign := common.GetSignNew(privateHex, msg)
@@ -58,4 +58,19 @@ func (s *Timeline) TestTimelineCase00(goCheck *C) {
 	}
 	respStr, err = common.DoPost(TimelineUrl, common.ConvToJSON(TimelineReq))
 	common.PrintInfo("TimelineUrl_resp: %v", string(respStr))
+	goCheck.Assert(err, IsNil)
+}
+
+func (s *Timeline) TestTimelineCase01(goCheck *C) {
+	//无addr，无收藏
+
+	TimelineReq := RequestArticleTimeline{
+		PageInfo: PageInfo{
+			Page:  1,
+			Limit: 10,
+		},
+	}
+	respStr, err := common.DoPost(TimelineUrl, common.ConvToJSON(TimelineReq))
+	common.PrintInfo("TimelineUrl_resp: %v", string(respStr))
+	goCheck.Assert(err, IsNil)
 }
